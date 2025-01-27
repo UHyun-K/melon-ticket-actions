@@ -12,7 +12,17 @@ jobs:
         with:
           product-id: 210868
           schedule-id: 100002
-          seat-id: 1_0 # 替換成您想要的座位 ID，或保持這樣檢查所有座位
-          message: '票已開放，請立即購買！' # 自定義通知訊息
+          seat-id: 1_0
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "票務通知：票已開放購買！"
+          body: "您所設定的演唱會票務現已開放購買，請立即行動！"
+          to: chungit0091@gmail.com
+          from: GitHub Actions <chungit0091@gmail.com>
 
 
