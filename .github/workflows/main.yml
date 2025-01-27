@@ -1,22 +1,19 @@
-name: workflow
-on: push
+name: Melon Ticket Checker
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # 每 10 分鐘執行一次
+  workflow_dispatch: # 手動啟動
+
 jobs:
-  job:
+  check-ticket:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v1
-      - name: Prepare
-        run: npm ci
-      - name: Lint
-        uses: mooyoul/tslint-actions@master
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Ticket Checker
+        uses: mooyoul/melon-ticket-actions@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: '*.ts'
-      - name: Build
-        run: npm run build
-      - name: Publish
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          url: ${{ secrets.MELON_URL }}       # 釋票頁面的 URL
+          email: ${{ secrets.NOTIFY_EMAIL }} # 收到通知的 Email
