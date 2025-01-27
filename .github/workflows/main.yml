@@ -1,22 +1,31 @@
-name: workflow
-on: push
+name: Melon Ticket Checker
+on:
+  schedule:
+    - cron: '*/5 * * * *' # 每 5 分鐘執行一次
+  workflow_dispatch: # 手動觸發工作流
+
 jobs:
-  job:
+  check-ticket:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v1
-      - name: Prepare
-        run: npm ci
-      - name: Lint
-        uses: mooyoul/tslint-actions@master
+      - name: Check Tickets
+        uses: mooyoul/melon-ticket-actions@v1.1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: '*.ts'
-      - name: Build
-        run: npm run build
-      - name: Publish
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          product-id: 210868 # 替換為您的產品 ID
+          schedule-id: 100002 # 替換為您的場次 ID
+          seat-id: 1_0 # 替換為您的座位 ID
+      
+      # 發送 Email
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "票務通知：票已開放購買！"
+          body: "您所設定的演唱會票務現已開放購買，請立即行動！URL: https://tkglobal.melon.com/performance/index.htm?langCd=CN&prodId=210868"
+          to: chungit0091@gmail.com
+          from: GitHub Actions <chungit0091@gmail.com>
+
