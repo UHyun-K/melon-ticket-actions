@@ -1,22 +1,18 @@
-name: Melon Ticket Checker
+name: Check Tickets
 on:
   schedule:
-    - cron: '*/5 * * * *' # 每 5 分鐘執行一次
-  workflow_dispatch: # 手動觸發工作流
-
+    - cron: '*/5 * * * *' # 每5分鐘執行一次
 jobs:
-  check-ticket:
+  job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Check Tickets
         uses: mooyoul/melon-ticket-actions@v1.1.0
         with:
-          product-id: 210868 # 替換為您的產品 ID
-          schedule-id: 100002 # 替換為您的場次 ID
-          seat-id: 1_0 # 替換為您的座位 ID
-      
-      # 發送 Email
+          product-id: 210868
+          schedule-id: 100002
+          seat-id: 1_0
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
         with:
@@ -25,7 +21,7 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "票務通知：票已開放購買！"
-          body: "您所設定的演唱會票務現已開放購買，請立即行動！URL: https://tkglobal.melon.com/performance/index.htm?langCd=CN&prodId=210868"
+          body: "您所設定的演唱會票務現已開放購買，請立即行動！"
           to: chungit0091@gmail.com
           from: GitHub Actions <chungit0091@gmail.com>
 
