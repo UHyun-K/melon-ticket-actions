@@ -10,9 +10,9 @@ jobs:
       - name: Check Tickets
         uses: mooyoul/melon-ticket-actions@v1.1.0
         with:
-          product-id: 210868
-          schedule-id: 100002
-          seat-id: 1_0 # 替換成您想要的座位 ID，或保持這樣檢查所有座位
+          prodId: 210868
+          scheduleNo: 100002
+          blockId: 599,396
           slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }} # 如果不使用 Slack，可移除這一行
           message: '票已開放，請立即購買！' # 自定義通知訊息
 
