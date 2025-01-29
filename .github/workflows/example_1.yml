@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Check Tickets
-        uses: mooyoul/melon-ticket-actions@v1.1.0
+        uses: mooyoul/melon-ticket-actions@v4.4.1
         with:
           product-id: 210774
           schedule-id: 100001
