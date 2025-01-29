@@ -12,6 +12,6 @@ jobs:
         with:
           product-id: 210868
           schedule-id: 100002
-          seat-id: 599,396
+          seat-id: 1_0
           slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           message: '這是一個測試訊息 🚀'
