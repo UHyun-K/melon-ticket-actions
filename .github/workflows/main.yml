@@ -1,23 +1,18 @@
-name: workflow
-on: push
+name: Check Tickets
+on:
+  schedule:
+    - cron: '*/5 * * * *' # 每5分鐘執行一次
 jobs:
   job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v1
-      - name: Prepare
-        run: npm ci
-      - name: Lint
-        uses: mooyoul/tslint-actions@master
+      - name: Check Tickets
+        uses: mooyoul/melon-ticket-actions@v1.1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: '*.ts'
-      - name: Build
-        run: npm run build
-      - name: Publish
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npx semantic-release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          product-id: 210868
+          schedule-id: 100002
+          seat-id: 1_0 # 替換成您想要的座位 ID，或保持這樣檢查所有座位
+          slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }} # 如果不使用 Slack，可移除這一行
+          message: '票已開放，請立即購買！' # 自定義通知訊息
 
