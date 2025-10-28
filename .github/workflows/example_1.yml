@@ -8,7 +8,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-    
+    # -------------------------------------------------------------
+    # 0. 📢 GitHub Action Slack 알림 테스트 (Slack-Action 사용)
+    # -------------------------------------------------------------
+    - name: Test Slack Notification (Action)
+      uses: slackapi/slack-github-action@v1.24.0 # ⬅️ 이 Action으로 변경
+      with:
+        payload: |
+          {
+            "text": "📢 GitHub Actions 알림 기능 테스트 성공!! (Action)",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "📢 *GitHub Actions 알림 기능 테스트 성공!! (Action)*\n웹훅 URL 정상 확인."
+                }
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # ⬅️ Secrets 사용
+        
+    # -------------------------------------------------------------
     # -------------------------------------------------------------
     # 1일차 공연 (schedule-id: 100001) 감시 시작
     # -------------------------------------------------------------
