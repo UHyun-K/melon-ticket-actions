@@ -15,7 +15,7 @@ jobs:
 
     # 1. 🥇 1일차 VIP 등급 감시
     - name: Check Tickets - VIP 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
+      uses: mooyoul/melon-ticket-actions@2c88427f7f5a896d8e8749e75916055d7b328169 # ⬅️ SHA로 고정
       with:
         product-id: 211782
         schedule-id: 100001
@@ -25,7 +25,7 @@ jobs:
 
     # 2. 🥈 1일차 R 등급 감시
     - name: Check Tickets - R 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
+      uses: mooyoul/melon-ticket-actions@2c88427f7f5a896d8e8749e75916055d7b328169 # ⬅️ SHA로 고정
       with:
         product-id: 211782
         schedule-id: 100001
@@ -35,7 +35,7 @@ jobs:
 
     # 3. 🥉 1일차 S 등급 감시
     - name: Check Tickets - S 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
+      uses: mooyoul/melon-ticket-actions@2c88427f7f5a896d8e8749e75916055d7b328169 # ⬅️ SHA로 고정
       with:
         product-id: 211782
         schedule-id: 100001
@@ -49,7 +49,7 @@ jobs:
 
     # 4. 🥇 2일차 VIP 등급 감시
     - name: Check Tickets - VIP 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
+      uses: mooyoul/melon-ticket-actions@2c88427f7f5a896d8e8749e75916055d7b328169 # ⬅️ SHA로 고정
       with:
         product-id: 211782
         schedule-id: 100002
@@ -58,21 +58,4 @@ jobs:
         message: 'VIP 좌석 풀렸습니다! (2일차) 즉시 구매하세요!!'
 
     # 5. 🥈 2일차 R 등급 감시
-    - name: Check Tickets - R 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
-      with:
-        product-id: 211782
-        schedule-id: 100002
-        seat-id: 10008
-        slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-        message: '일반석 풀렸습니다! (2일차) 즉시 구매하세요!!'
-
-    # 6. 🥉 2일차 S 등급 감시
-    - name: Check Tickets - S 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
-      with:
-        product-id: 211782
-        schedule-id: 100002
-        seat-id: 12051
-        slack-incoming-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-        message: '시제석 풀렸습니다! (2일차) 즉시 구매하세요!!'
+      uses: mooyoul/melon-ticket-actions@2c88427f7f5a
