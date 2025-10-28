@@ -2,42 +2,20 @@ name: Check Tickets
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *' # 5분마다 자동 실행
 jobs:
   job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-    # -------------------------------------------------------------
-    # 0. 📢 GitHub Action Slack 알림 테스트 (Slack-Action 사용)
-    # -------------------------------------------------------------
-    - name: Test Slack Notification (Action)
-      uses: slackapi/slack-github-action@v1.24.0 # ⬅️ 이 Action으로 변경
-      with:
-        payload: |
-          {
-            "text": "📢 GitHub Actions 알림 기능 테스트 성공!! (Action)",
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "📢 *GitHub Actions 알림 기능 테스트 성공!! (Action)*\n웹훅 URL 정상 확인."
-                }
-              }
-            ]
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # ⬅️ Secrets 사용
-        
-    # -------------------------------------------------------------
+    
     # -------------------------------------------------------------
     # 1일차 공연 (schedule-id: 100001) 감시 시작
     # -------------------------------------------------------------
 
     # 1. 🥇 1일차 VIP 등급 감시
     - name: Check Tickets - VIP 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100001
@@ -47,7 +25,7 @@ jobs:
 
     # 2. 🥈 1일차 R 등급 감시
     - name: Check Tickets - R 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100001
@@ -57,7 +35,7 @@ jobs:
 
     # 3. 🥉 1일차 S 등급 감시
     - name: Check Tickets - S 등급 (1일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100001
@@ -71,7 +49,7 @@ jobs:
 
     # 4. 🥇 2일차 VIP 등급 감시
     - name: Check Tickets - VIP 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100002
@@ -81,7 +59,7 @@ jobs:
 
     # 5. 🥈 2일차 R 등급 감시
     - name: Check Tickets - R 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100002
@@ -91,7 +69,7 @@ jobs:
 
     # 6. 🥉 2일차 S 등급 감시
     - name: Check Tickets - S 등급 (2일차)
-      uses: mooyoul/melon-ticket-actions@v1
+      uses: mooyoul/melon-ticket-actions@main # ⬅️ 에러 수정 (@main)
       with:
         product-id: 211782
         schedule-id: 100002
