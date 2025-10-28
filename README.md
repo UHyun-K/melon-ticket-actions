@@ -5,21 +5,10 @@
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg)](http://mooyoul.mit-license.org/)
 
-GitHub action that checks ticket availability in Melon Ticket (Korean online ticket store) website.
-
-~~암표상들 다 망해라~~ 그리핀 내한공연 보게 해주세요 🙏
-
------
-
-![slack](assets/slack.png)
-
-### ⭐️ 존버는 승리한다 ⭐️
-
-![won](assets/won.jpg)
 
 ## Usage
 
-Please see [example workflow](https://github.com/mooyoul/melon-ticket-actions/blob/1c5a56b9cdd594051d856c16b020f0c5835f6955/.github/workflows/example.yml), or [Workflow Log](https://github.com/mooyoul/melon-ticket-actions/actions?query=workflow%3Aexample) 
+
 
 ## Sample Github Actions Configuration 
 
