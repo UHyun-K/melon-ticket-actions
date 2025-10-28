@@ -12,12 +12,6 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
     # -------------------------------------------------------------
-    # 0. 📢 SLACK 알림 기능 테스트 (CMD Curl)
-    # -------------------------------------------------------------
-    - name: Test Slack Notification (Check if it works)
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 GitHub Actions 알림 기능 테스트 성공!! (티켓 풀림 가정)"}' ${{ env.SLACK_WEBHOOK_URL }}
-    # -------------------------------------------------------------
     # 1일차 공연 (schedule-id: 100001) 감시 시작
     # -------------------------------------------------------------
 
