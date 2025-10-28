@@ -1,4 +1,4 @@
-name: Check Tickets (New Action)
+name: Check Tickets (Shell Only)
 on:
   workflow_dispatch:
   schedule:
@@ -7,33 +7,83 @@ jobs:
   job:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      PRODUCT_ID: 211782
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
     
-    # 1. 📦 Action Checkout (스크립트 파일 가져오기)
-    - name: Checkout Code
-      uses: actions/checkout@v4
-    
-    # 2. 🐍 Python 환경 설정
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
-        
-    # 3. 🚨 새로운 멜론 티켓 감시 Action 실행 (6개 감시 통합)
-    #    * 이 Action은 SHA 문제가 없습니다.
-    - name: Run Melon Ticket Checker for 6 Steps
-      uses: a-n-t-o-n-i/melon-ticket-checker@v1.0.0
-      with:
-        product_id: '211782'
-        
-        # 1일차 (schedule-id: 100001)
-        schedule_id_1: '100001'
-        seat_ids_1: '10000,10008,12051' # VIP, 일반, 시제
-        messages_1: 'VIP 좌석 풀렸습니다! (1일차), 일반석 풀렸습니다! (1일차), 시제석 풀렸습니다! (1일차)'
-        
-        # 2일차 (schedule-id: 100002)
-        schedule_id_2: '100002'
-        seat_ids_2: '10000,10008,12051' # VIP, 일반, 시제
-        messages_2: 'VIP 좌석 풀렸습니다! (2일차), 일반석 풀렸습니다! (2일차), 시제석 풀렸습니다! (2일차)'
+    # -------------------------------------------------------------
+    # 1일차 공연 (schedule-id: 100001) 감시 시작
+    # -------------------------------------------------------------
 
-        slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+    # 1. 🥇 1일차 VIP 등급 감시
+    - name: Check Tickets - VIP 등급 (1일차)
+      run: |
+        # API 호출 및 잔여석 확인 (API 응답에 "success":true가 포함되면 잔여석 있다고 가정)
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100001&seatId=10000")
+        
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "VIP 좌석 (1일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 VIP 좌석 풀렸습니다! (1일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "VIP 좌석 (1일차) 잔여석 없음."
+        fi
+
+    # 2. 🥈 1일차 R 등급 감시
+    - name: Check Tickets - R 등급 (1일차)
+      run: |
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100001&seatId=10008")
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "R 등급 (1일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 일반석 풀렸습니다! (1일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "R 등급 (1일차) 잔여석 없음."
+        fi
+
+    # 3. 🥉 1일차 S 등급 감시
+    - name: Check Tickets - S 등급 (1일차)
+      run: |
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100001&seatId=12051")
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "S 등급 (1일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 시제석 풀렸습니다! (1일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "S 등급 (1일차) 잔여석 없음."
+        fi
+
+    # -------------------------------------------------------------
+    # 2일차 공연 (schedule-id: 100002) 감시 시작
+    # -------------------------------------------------------------
+
+    # 4. 🥇 2일차 VIP 등급 감시
+    - name: Check Tickets - VIP 등급 (2일차)
+      run: |
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100002&seatId=10000")
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "VIP 좌석 (2일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 VIP 좌석 풀렸습니다! (2일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "VIP 좌석 (2일차) 잔여석 없음."
+        fi
+
+    # 5. 🥈 2일차 R 등급 감시
+    - name: Check Tickets - R 등급 (2일차)
+      run: |
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100002&seatId=10008")
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "R 등급 (2일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 일반석 풀렸습니다! (2일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "R 등급 (2일차) 잔여석 없음."
+        fi
+
+    # 6. 🥉 2일차 S 등급 감시
+    - name: Check Tickets - S 등급 (2일차)
+      run: |
+        RESPONSE=$(curl -s "https://ticket.melon.com/api/web/product/schedule.json?pId=${{ env.PRODUCT_ID }}&sId=100002&seatId=12051")
+        if echo "$RESPONSE" | grep -q '"success":true'; then
+          echo "S 등급 (2일차) 잔여석 발견! 슬랙 알림 전송."
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"📢 시제석 풀렸습니다! (2일차) 즉시 구매하세요!!\n링크: https://ticket.melon.com/performance/index.htm?prodId=${{ env.PRODUCT_ID }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+        else
+          echo "S 등급 (2일차) 잔여석 없음."
+        fi
